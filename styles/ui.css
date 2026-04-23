@@ -1,0 +1,309 @@
+/* =============================================
+   ui.css - Universe Clock UI
+   by Agus Satria Adhitama
+   ============================================= */
+
+/* ── HUD ─────────────────────────────── */
+#hud {
+  position: fixed;
+  top: 28px;
+  left: 32px;
+  z-index: 100;
+  pointer-events: none;
+  user-select: none;
+}
+
+#hud-time {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--c-accent);
+  line-height: 1;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--c-accent) 60%, transparent);
+  transition: color 2s ease;
+}
+
+#hud-date {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.5vw, 13px);
+  color: var(--c-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+#hud-seed {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--c-dim);
+  letter-spacing: 0.2em;
+  margin-top: 3px;
+}
+#hud-seed-val { color: var(--c-muted); }
+
+/* ── Credit ──────────────────────────── */
+#credit {
+  position: fixed;
+  bottom: 28px;
+  left: 32px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--c-dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Panel Toggle Button ─────────────── */
+#panel-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--c-border);
+  background: var(--c-surface);
+  color: var(--c-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s, color 0.2s;
+}
+#panel-toggle:hover { border-color: var(--c-accent); color: var(--c-accent); }
+#panel-toggle.active { color: var(--c-accent); border-color: var(--c-accent); }
+
+/* ── Settings Panel ──────────────────── */
+#panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 280px;
+  z-index: 150;
+  background: rgba(4, 4, 18, 0.92);
+  border-left: 0.5px solid var(--c-border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 80px 24px 32px;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+#panel.open {
+  transform: translateX(0);
+}
+
+/* ── Panel Overlay (mobile dim) ──────── */
+#panel-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  background: rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#panel-overlay.visible {
+  display: block;
+  opacity: 1;
+}
+
+/* ── Panel Internals ─────────────────── */
+.panel-section {
+  padding: 18px 0;
+  border-bottom: 0.5px solid var(--c-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.panel-section:last-child { border-bottom: none; }
+
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.panel-date {
+  background: var(--c-surface);
+  border: 0.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 10px;
+  width: 100%;
+  margin-top: 8px;
+  cursor: pointer;
+  color-scheme: dark;
+}
+.panel-date:focus { outline: none; border-color: var(--c-accent); }
+
+.panel-btn-sm {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--c-muted);
+  background: transparent;
+  border: 0.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.panel-btn-sm:hover { color: var(--c-accent); border-color: var(--c-accent); }
+
+/* Mode buttons */
+.mode-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  width: 100%;
+}
+.mode-btn {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  background: transparent;
+  border: 0.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 7px 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode-btn:hover { color: var(--c-text); border-color: var(--c-dim); }
+.mode-btn.active {
+  color: var(--c-accent);
+  border-color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 8%, transparent);
+}
+
+/* Toggle */
+.toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.toggle-wrap input { display: none; }
+.toggle {
+  width: 36px;
+  height: 20px;
+  background: var(--c-surface);
+  border: 0.5px solid var(--c-border);
+  border-radius: 10px;
+  position: relative;
+  transition: background 0.3s, border-color 0.3s;
+}
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--c-muted);
+  transition: transform 0.3s, background 0.3s;
+}
+.toggle-wrap input:checked + .toggle {
+  background: color-mix(in srgb, var(--c-accent) 15%, transparent);
+  border-color: var(--c-accent);
+}
+.toggle-wrap input:checked + .toggle::after {
+  transform: translateX(16px);
+  background: var(--c-accent);
+}
+
+/* Action buttons */
+.panel-actions {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+.panel-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--c-muted);
+  background: var(--c-surface);
+  border: 0.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  width: 100%;
+}
+.panel-btn:hover { color: var(--c-text); border-color: var(--c-dim); }
+.panel-btn svg { flex-shrink: 0; }
+
+/* Toast */
+.toast {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-accent);
+  text-align: center;
+  min-height: 18px;
+  padding: 4px 0;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.toast.show { opacity: 1; }
+
+/* ── Loading screen ──────────────────── */
+#loading {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--c-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: opacity 0.8s;
+}
+#loading.fade { opacity: 0; pointer-events: none; }
+#loading-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--c-muted);
+  text-transform: uppercase;
+}
+#loading-ring {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--c-dim);
+  border-top-color: var(--c-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Responsive ──────────────────────── */
+@media (max-width: 600px) {
+  #hud { top: 20px; left: 20px; }
+  #credit { bottom: 20px; left: 20px; }
+  #panel { width: 100%; max-width: 320px; }
+  #panel-toggle { top: 16px; right: 16px; }
+}
